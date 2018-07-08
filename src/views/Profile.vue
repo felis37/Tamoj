@@ -8,15 +8,15 @@
             </div>
             <v-spacer />
             <v-btn outline to='/admin'>
-                Tillbaka till administration<v-icon small class="inline-icon-right">launch</v-icon><v-icon large right>layers</v-icon>
+                Tillbaka till administration<v-icon right>launch</v-icon>
             </v-btn>
 
             <v-tabs slot="extension" centered>
-                <v-tab v-for="profileView in profileViews" :key="profileView.title" :to="profileView.path"><v-icon class="inline-icon-left">{{ profileView.icon }}</v-icon>{{ profileView.title }}</v-tab>
+                <v-tab v-for="profileView in profileViews" :key="profileView.title" :to="profileView.path"><v-icon large class="inline-icon-left">{{ profileView.icon }}</v-icon>{{ profileView.title }}</v-tab>
                 
                 <v-menu v-if="profileMenuItems.length" bottom right class="v-tabs__div">
                     <a slot="activator" class="v-tabs__item">
-                        <v-icon>more_vert</v-icon>
+                        <v-icon large>more_vert</v-icon>
                     </a>
                     <v-list>
                         <v-list-tile v-for="profileMenuItem in profileMenuItems" :key="profileMenuItem.title" :to="profileMenuItem.path">
