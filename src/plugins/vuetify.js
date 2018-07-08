@@ -12,6 +12,7 @@ import {
   VTabs,
   VToolbar,
   VMenu,
+  VDivider,
   transitions
 } from 'vuetify'
 import 'vuetify/src/stylus/app.styl'
@@ -28,6 +29,7 @@ Vue.use(Vuetify, {
     VTabs,
     VToolbar,
     VMenu,
+    VDivider,
     transitions
   },
 })

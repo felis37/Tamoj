@@ -1,16 +1,20 @@
 <template>
     <v-app>
-        <v-toolbar app tabs>
-            <v-toolbar-title>Felix Lennartsson</v-toolbar-title>
+        <v-toolbar app tabs color="white">
             <v-spacer />
-            <v-btn icon to='/admin'>
-                <v-icon>dashboard</v-icon>
+            <div id="profile-title-elems">
+                <v-icon x-large>account_circle</v-icon>
+                <v-toolbar-title>Min profil - Felix Lennartsson</v-toolbar-title>
+            </div>
+            <v-spacer />
+            <v-btn outline to='/admin'>
+                Tillbaka till administration<v-icon small class="inline-icon-right">launch</v-icon><v-icon large right>layers</v-icon>
             </v-btn>
 
             <v-tabs slot="extension" centered>
                 <v-tab v-for="profileView in profileViews" :key="profileView.title" :to="profileView.path"><v-icon class="inline-icon-left">{{ profileView.icon }}</v-icon>{{ profileView.title }}</v-tab>
                 
-                <v-menu v-if="profileMenuItems.length" bottom left class="v-tabs__div">
+                <v-menu v-if="profileMenuItems.length" bottom right class="v-tabs__div">
                     <a slot="activator" class="v-tabs__item">
                         <v-icon>more_vert</v-icon>
                     </a>
@@ -32,7 +36,6 @@
                 <router-view />
             </v-container>
         </v-content>
-        <v-footer app></v-footer>
     </v-app>
 </template>
 
@@ -51,6 +54,8 @@
                     { title: 'Händelser', path: '/profile/events', icon: 'event'}
                 ],
                 profileMenuItems: [
+                    { title: 'Hjälp', path: '/profile/help', icon: 'help'},
+                    { title: 'Om Tamoj', path: '/about', icon: 'info'},
                     { title: 'Logga ut', path: '/sign-out', icon: 'power_settings_new' }
                 ]
             }
@@ -60,3 +65,14 @@
         }
     }
 </script>
+
+<style scoped>
+    #profile-title-elems {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    #profile-title-elems * {
+        display: inline-block;
+    }
+</style>

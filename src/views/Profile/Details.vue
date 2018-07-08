@@ -10,7 +10,7 @@
   import { functions } from '@/plugins/firebase'
    
   export default {
-    name: 'details',
+    name: 'unique_details',
     methods: {
       async getFunctionData() {
         let helloWorld = functions.httpsCallable('helloWorld')
