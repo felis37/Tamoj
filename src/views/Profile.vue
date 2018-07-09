@@ -3,7 +3,7 @@
         <v-toolbar app tabs color="white">
             <v-spacer />
             <v-avatar>
-                <img src="https://cdn.vuetifyjs.com/images/john.jpg">
+                <img src="https://www.w3schools.com/w3css/img_avatar3.png">
             </v-avatar>
             <v-toolbar-title>
                 <span class="hidden-sm-and-down">Min profil -&nbsp;</span>
@@ -15,8 +15,8 @@
             <v-spacer />
             <v-tabs slot="extension" fixed-tabs>
                 <v-tab v-for="profileView in profileViews" :key="profileView.title" :to="profileView.path">
-                    <v-icon large class="inline-icon-left hidden-xs-only">{{ profileView.icon }}</v-icon>
-                    <span class="hidden-xs-only">{{ profileView.title }}</span>
+                    <v-icon large class="hidden-xs-only">{{ profileView.icon }}</v-icon>
+                    <span class="hidden-xs-only">&nbsp;&nbsp;{{ profileView.title }}</span>
                     <v-icon class="hidden-sm-and-up" large>{{ profileView.icon }}</v-icon>
                 </v-tab>
                 
@@ -57,7 +57,7 @@
                 <v-list-tile avatar v-for="profile in profiles" :key="profile.name" @click.stop="profileSelect = false">
                     <v-list-tile-avatar>
                         <v-avatar>
-                            <img src="https://cdn.vuetifyjs.com/images/john.jpg">
+                            <img src="https://www.w3schools.com/w3css/img_avatar3.png">
                         </v-avatar>
                     </v-list-tile-avatar>
                     <v-list-tile-title>
