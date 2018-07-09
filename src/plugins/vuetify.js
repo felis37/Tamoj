@@ -14,6 +14,9 @@ import {
   VMenu,
   VDivider,
   VOverflowBtn,
+  VBottomSheet,
+  VAvatar,
+  VSubheader,
   transitions
 } from 'vuetify'
 import 'vuetify/src/stylus/app.styl'
@@ -32,6 +35,9 @@ Vue.use(Vuetify, {
     VMenu,
     VDivider,
     VOverflowBtn,
+    VBottomSheet,
+    VAvatar,
+    VSubheader,
     transitions
   },
 })
