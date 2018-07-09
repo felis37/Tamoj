@@ -13,6 +13,7 @@ import {
   VToolbar,
   VMenu,
   VDivider,
+  VOverflowBtn,
   transitions
 } from 'vuetify'
 import 'vuetify/src/stylus/app.styl'
@@ -30,6 +31,7 @@ Vue.use(Vuetify, {
     VToolbar,
     VMenu,
     VDivider,
+    VOverflowBtn,
     transitions
   },
 })
