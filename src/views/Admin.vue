@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-navigation-drawer app permanent color="white">
+        <v-navigation-drawer v-model="drawer" app color="white">
             <v-list two-line>
                 <v-list-tile avatar>
                     <v-list-tile-avatar>
@@ -25,9 +25,10 @@
             </v-list>
         </v-navigation-drawer>
         <v-toolbar app color="white">
+            <v-toolbar-side-icon class="hidden-lg-and-up" @click.stop="drawer = !drawer" />
             <v-spacer />
             <v-icon x-large>layers</v-icon>
-            <v-toolbar-title>Administration - Närvaro</v-toolbar-title> <!--Get view title from adminViews (do loop through to find object with name for route, then get that title)-->
+            <v-toolbar-title><span class="hidden-sm-and-down">Administration -&nbsp;</span>Närvaro</v-toolbar-title> <!--Get view title from adminViews (do loop through to find object with name for route, then get that title)-->
             <v-spacer />
         </v-toolbar>
         <v-content>
@@ -43,6 +44,7 @@
         name: 'admin',
         data() {
             return {
+                drawer: null,
                 user: {
                     displayName: '',
                     email: ''

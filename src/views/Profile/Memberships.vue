@@ -1,6 +1,6 @@
 <template>
   <div class="memberships">
-    <h1>Medlemsskapssidan</h1>
+    <h1>Medlemskapssidan</h1>
   </div>
 </template>
 
