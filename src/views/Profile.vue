@@ -2,7 +2,9 @@
     <v-app>
         <v-toolbar app tabs color="white">
             <v-spacer />
-            <v-icon x-large>account_circle</v-icon>
+            <v-avatar>
+                <img src="https://cdn.vuetifyjs.com/images/john.jpg">
+            </v-avatar>
             <v-toolbar-title>
                 <span class="hidden-sm-and-down">Min profil -&nbsp;</span>
                 Felix Lennartsson&nbsp;

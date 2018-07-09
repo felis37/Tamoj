@@ -4,7 +4,9 @@
             <v-list two-line>
                 <v-list-tile avatar>
                     <v-list-tile-avatar>
-                        <v-icon x-large>account_circle</v-icon>
+                        <v-avatar id="profile-avatar">
+                            <img src="https://cdn.vuetifyjs.com/images/john.jpg">
+                        </v-avatar>
                     </v-list-tile-avatar>
                     <v-list-tile-content>
                         <v-list-tile-title>Felix Lennartsson</v-list-tile-title>
@@ -20,6 +22,15 @@
                     </v-list-tile-action>
                     <v-list-tile-content>
                         <v-list-tile-title>{{ adminView.title }}</v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+                <v-divider />
+                <v-list-tile v-for="supportView in supportViews" :key="supportView.title" :to="supportView.path">
+                    <v-list-tile-action>
+                        <v-icon>{{ supportView.icon }}</v-icon>
+                    </v-list-tile-action>
+                    <v-list-tile-content>
+                        <v-list-tile-title>{{ supportView.title }}</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
             </v-list>
@@ -53,7 +64,9 @@
                     { title: 'Närvaro', path: '/admin/attendance', name: 'attendance', icon: 'assignment' },
                     { title: 'Meddelanden & utskick', path: '/admin/communication', icon: 'question_answer' },
                     { title: 'Kalender', path: '/admin/calendar', icon: 'today' },
-                    { title: 'Hantera avdelning', path: '/admin/manage-groups', icon: 'people' },
+                    { title: 'Hantera avdelning', path: '/admin/manage-groups', icon: 'people' }
+                ],
+                supportViews: [
                     { title: 'Hjälp', path: '/admin/help', icon: 'help' },
                     { title: 'Om Tamoj', path: '/about', icon: 'info' },
                     { title: 'Logga ut', path: '/sign-out', icon: 'power_settings_new' }
@@ -69,5 +82,8 @@
 <style scoped>
     #profile-button {
         margin: 0;
+    }
+    #profile-avatar {
+        padding-top: 6px;
     }
 </style>
