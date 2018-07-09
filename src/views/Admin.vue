@@ -35,7 +35,7 @@
                 </v-list-tile>
             </v-list>
         </v-navigation-drawer>
-        <v-toolbar app color="white">
+        <v-toolbar app color="white" flat class="flat-outline">
             <v-toolbar-side-icon class="hidden-lg-and-up" @click.stop="drawer = !drawer" />
             <v-spacer />
             <v-icon x-large>layers</v-icon>

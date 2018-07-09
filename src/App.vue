@@ -9,3 +9,9 @@
     name: 'App'
   }
 </script>
+
+<style>
+  .flat-outline {
+    outline: 1px solid rgba(0,0,0,0.12);
+  }
+</style>
