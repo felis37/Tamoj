@@ -19,6 +19,7 @@ import {
   VSubheader,
   transitions
 } from 'vuetify'
+import { Touch } from 'vuetify/es5/directives'
 import 'vuetify/src/stylus/app.styl'
 
 Vue.use(Vuetify, {
@@ -40,4 +41,7 @@ Vue.use(Vuetify, {
     VSubheader,
     transitions
   },
+  directives: {
+    Touch
+  }
 })

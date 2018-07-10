@@ -43,7 +43,8 @@ let router = new Router({
     {
       path: '/sign-in',
       name: 'signIn',
-      component: SignIn
+      component: SignIn,
+      props: true
     },
     {
       path: '/sign-out',
@@ -109,7 +110,7 @@ router.beforeEach((to, from, next) => {
 
   if (!userHasAccessSomewhere) {
     if (viewRequiresAccess) {
-      next('/sign-in')
+      next({name: 'signIn', params: { target: to.fullPath }})
     } else {
       next()
     }

@@ -6,7 +6,7 @@
     </div>
     <h1>Logga in</h1>
     <p>Här ska en användare kunna logga in med olika inloggningsmetoder. Förslag är: Scoutnet (a.k.a lokal medlemsinloggning), Google och Facebook</p>
-    <SignInEmailPass />
+    <SignInEmailPass @signInSuccess="signInSuccess" />
   </div>
 </template>
 
@@ -17,6 +17,16 @@ export default {
   name: 'signIn',
   components: {
     SignInEmailPass
+  },
+  methods: {
+    signInSuccess(user) {
+      const possibleTargetPath = this.$route.params.target
+      if (typeof possibleTargetPath !== 'undefined') {
+        this.$router.replace(possibleTargetPath)
+      } else {
+        this.$router.replace({ name: user.accessModules[0] })
+      }
+    }
   }
 }
 </script>

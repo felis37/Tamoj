@@ -18,7 +18,8 @@
             return {
                 user: {
                     email: '',
-                    password: ''
+                    password: '',
+                    accessModules: ['admin', 'profile'] //Should be moved!
                 }
             }
         },
@@ -26,7 +27,7 @@
             async login() {
                 try {
                     await auth.signInWithEmailAndPassword(this.user.email, this.user.password)
-                    this.$router.replace('admin')
+                    this.$emit('signInSuccess', this.user)
                 } catch(err) {
                     alert('Ett fel inträffade! Felmeddelande: ' + err.message)
                 }

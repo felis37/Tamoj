@@ -13,19 +13,19 @@
                 Ändra
             </v-btn>
             <v-spacer />
-            <v-tabs slot="extension" fixed-tabs>
-                <v-tab v-for="profileView in profileViews" :key="profileView.title" :to="profileView.path">
+            <v-tabs slot="extension" fixed-tabs v-model="tabActive">
+                <v-tab v-for="profileView in profileViews" :key="profileView.title" :to="profileView.location">
                     <v-icon large class="hidden-xs-only">{{ profileView.icon }}</v-icon>
                     <span class="hidden-xs-only">&nbsp;&nbsp;{{ profileView.title }}</span>
                     <v-icon class="hidden-sm-and-up" large>{{ profileView.icon }}</v-icon>
                 </v-tab>
-                
-                <v-menu v-if="profileMenuItems.length" bottom right class="v-tabs__div">
+                <v-menu bottom right class="v-tabs__div">
                     <a slot="activator" class="v-tabs__item">
-                        <v-icon large>more_vert</v-icon>
+                        Mer
+                        <v-icon large>arrow_drop_down</v-icon>
                     </a>
                     <v-list>
-                        <v-list-tile to="/admin">
+                        <v-list-tile :to="{ name: 'admin'}">
                             <v-list-tile-action>
                                 <v-icon>layers</v-icon>
                             </v-list-tile-action>
@@ -34,7 +34,7 @@
                             </v-list-tile-content>
                         </v-list-tile>
                         <v-divider />
-                        <v-list-tile v-for="profileMenuItem in profileMenuItems" :key="profileMenuItem.title" :to="profileMenuItem.path">
+                        <v-list-tile v-for="profileMenuItem in profileMenuItems" :key="profileMenuItem.title" :to="profileMenuItem.location">
                             <v-list-tile-action>
                                 <v-icon>{{ profileMenuItem.icon }}</v-icon>
                             </v-list-tile-action>
@@ -46,7 +46,7 @@
                 </v-menu>
             </v-tabs>
         </v-toolbar>
-        <v-content>
+        <v-content v-touch="{ left: () => swipe('left'), right: () => swipe('right') }">
             <v-container fluid>
                 <router-view />
             </v-container>
@@ -75,19 +75,21 @@
         data() {
             return {
                 profileSelect: null,
+                tabActive: null,
                 user: {
                     displayName: '',
-                    email: ''
+                    email: '',
+                    accessModules: ['admin', 'profile'] //Get from Scoutnet
                 },
                 profileViews: [
-                    { title: 'Medlemskap', path: '/profile/memberships', icon: 'how_to_reg'},
-                    { title: 'Personuppgifter', path: '/profile/details', icon: 'person'},
-                    { title: 'Händelser', path: '/profile/events', icon: 'event'}
+                    { title: 'Medlemskap', location: { name: 'memberships' }, icon: 'how_to_reg'},
+                    { title: 'Personuppgifter', location: { name: 'details' }, icon: 'person'},
+                    { title: 'Händelser', location: { name: 'events' }, icon: 'event'}
                 ],
                 profileMenuItems: [
-                    { title: 'Hjälp', path: '/profile/help', icon: 'help'},
-                    { title: 'Om Tamoj', path: '/about', icon: 'info'},
-                    { title: 'Logga ut', path: '/sign-out', icon: 'power_settings_new' }
+                    { title: 'Hjälp', location: { name: 'help' }, icon: 'help'},
+                    { title: 'Om Tamoj', location: { name: 'about' }, icon: 'info'},
+                    { title: 'Logga ut', location: { name: 'signOut' }, icon: 'power_settings_new' }
                 ],
                 profiles: [
                     { name: 'Adam Bertilsson', avatar: '' },
@@ -96,7 +98,15 @@
             }
         },
         methods: {
-
+            swipe(direction) {
+                const currentRoute = this.$route.name
+                let tabIndex = this.profileViews.findIndex(item => item.location.name === currentRoute)
+                tabIndex = (direction === 'right') ? Math.max(tabIndex-1, 0) : Math.min(tabIndex+1, this.profileViews.length)
+                const nextSuggestedRoute = this.profileViews[tabIndex].location.name
+                if (nextSuggestedRoute !== currentRoute) {
+                    this.$router.replace({ name: nextSuggestedRoute })
+                }
+            }
         }
     }
 </script>
