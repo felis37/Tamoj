@@ -115,12 +115,12 @@ router.beforeEach((to, from, next) => {
       next()
     }
   } else {
-    if (!viewRequiresAccess && to.path !== '/sign-in') {
+    if (!viewRequiresAccess && to.name !== 'signIn') {
       next()
     } else if (viewRequiresAccess && viewAccessModules.some(r => userAccessModules.includes(r))) {
       next()
     } else {
-      next('/' + userAccessModules[0])
+      next({name: userAccessModules[0]})
     }
   }
 })
