@@ -8,6 +8,8 @@
 
 <script>
   import { functions } from '@/plugins/firebase'
+  import * as scoutnet from '@/plugins/scoutnet'
+  window.scoutnet = scoutnet;
    
   export default {
     name: 'unique_details',
