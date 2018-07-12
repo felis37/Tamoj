@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "preinstall": "npm install -g firebase-tools",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "preinstall": "npm install -g firebase-tools"
   },
   "dependencies": {
     "@vue/cli": "^3.0.0-rc.3",
@@ -24,9 +24,11 @@
     "@vue/cli-plugin-pwa": "^3.0.0-beta.15",
     "@vue/cli-service": "^3.0.0-beta.15",
     "@vue/eslint-config-prettier": "^3.0.0-rc.3",
+    "axios": "^0.18.0",
     "babel-plugin-transform-imports": "^1.4.1",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
+    "vue-cli-plugin-axios": "0.0.4",
     "vue-cli-plugin-vuetify": "^0.1.6",
     "vue-template-compiler": "^2.5.16"
   },
@@ -44,6 +46,11 @@
       "parser": "babel-eslint"
     }
   },
+  "prettier": {
+    "semi": false,
+    "useTabs": true,
+    "singleQuote": true
+  },
   "postcss": {
     "plugins": {
       "autoprefixer": {}
@@ -53,10 +60,5 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ],
-  "prettier": {
-    "semi": false,
-    "useTabs": true,
-    "singleQuote": true
-  }
+  ]
 }

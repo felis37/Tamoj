@@ -1,5 +1,8 @@
 //Warning: Badly written code
 
+import { functions } from '@/plugins/firebase'
+import axios from 'axios'
+
 const formValuesGetMap = {
 	newsletter: 'profile[newsletter]',
 	memberMagazine: 'profile[product_subscription_8]'
@@ -165,4 +168,11 @@ function setValues(keyValueObject) {
 	//Process result
 }
 
-export { getValues, setValues }
+async function test() {
+	let result = await axios.get(
+		'http://localhost:5000/tamoj-d8e1b/us-central1/api/'
+	)
+	console.log(result.data)
+}
+
+export { getValues, setValues, test }
