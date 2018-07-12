@@ -1,0 +1,148 @@
+{
+    "profiles": {
+        
+        "N4RddvMaYS4ff9pqDD9o": {
+            "details": {
+                "general": {
+                    "givenName": "Anna",
+                    "familyName": "Andersson",
+                    "ssno": "200203172806",
+                    "sex": "female",
+                    "email": "annand@example.com",
+                    "mobile": "+46731238285",
+                    "avatar": "fileRef"
+                },
+                "address": {
+                    "street": "Solvägen 20",
+                    "postcode": "14654",
+                    "town": "Tullinge"
+                },
+                "medical": {
+                    "foodAllergiesOrSpecialCuisines": [],
+                    "foodAllergiesOrSpecialCuisinesFreetext": "",
+                    "diseases": [],
+                    "diseasesFreetext": "",
+                    "vaccinations": [],
+                    "otherFreetext": ""
+                },
+                "attestations": {
+                    "swim200meters": true
+                },
+                "consents": {
+                    "photos": true,
+                    "publicDisclosureOfEventParticipations": true
+                },
+                "relatives": [
+                    {
+                        "name": "Margaretha Andersson",
+                        "email": "marand@example.com",
+                        "mobile": "+46731231287"
+                    },
+                    {
+                        "name": "Lars Andersson",
+                        "email": "larand@example.com",
+                        "mobile": "+46731235577"
+                    }
+                ]
+            },
+            "logins": [
+                "aogoiamgaemgamgoeamg",
+                "oaomoamegoimegoiamegoiam",
+                "oamvoaimvamalmlkmm"
+            ],
+            "externalIdentifiers": {
+                "scoutnetID": "3213151"
+            },
+            "memberships": [
+                {
+                    "organisation": "refHere",
+                    "groupMemberships": [
+                        {
+                            "group": "refHere",
+                            "role": "member",
+                            "status": "pending",
+                            "lock": false
+                        },
+                        {
+                            "group": "refHere",
+                            "role": "leader",
+                            "status": "valid",
+                            "lock": true
+                        }
+                    ]
+                }
+            ]
+        }
+    
+    },
+
+    "organisations": {
+        
+        "aegg56ae1aegAFEFafaF": {
+            "details": {
+                "name": "Sanct Botvids scoutkår",
+                "logo": "fileRef",
+                "hero": "fileRef",
+                "email": "hej@stbscout.se"
+            },
+            "externalIdentifiers": {
+                "scoutnetId": "780"
+            },
+            "settings": {
+                "allowX": false
+            },
+            "groups": [
+                {
+                    "name": "Spröten",
+                    "category": "Spårare",
+                    "logo": "fileRef",
+                    "hero": "fileRef",
+                    "allowedMemberAge": {
+                        "ageFrom": "8",
+                        "ageTo": "10"
+                    },
+                    "allowedLeaderAge": {
+                        "ageFrom": "16"
+                    },
+                    "externalIdentifiers": {
+                        "scoutnetId": "2528"
+                    },
+                    "relations": [
+                        {
+                            "group": "refHere",
+                            "type": "sibling"
+                        }
+                    ]
+                }
+            ]
+        }
+    
+    },
+
+    "events": {
+
+        "egakomgoenmgoamg": {
+            "details": {
+
+            }
+        }
+
+    },
+
+    "attendance": {
+
+        "aiopjfmgioeamgfoiam": {
+
+        }
+
+    },
+
+    "messages": {
+
+        "aofnmioamfoaemf": {
+            
+        }
+
+    }
+
+}
