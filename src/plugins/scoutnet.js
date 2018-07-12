@@ -169,10 +169,16 @@ function setValues(keyValueObject) {
 }
 
 async function test() {
-	let result = await axios.get(
+	functions
+		.httpsCallable('test')('morotspannkaka')
+		.then(data => {
+			console.log('Data från funktion:', data.data)
+		})
+
+	/*let result = await axios.get(
 		'http://localhost:5000/tamoj-d8e1b/us-central1/api/'
 	)
-	console.log(result.data)
+	console.log(result.data)*/
 }
 
 export { getValues, setValues, test }

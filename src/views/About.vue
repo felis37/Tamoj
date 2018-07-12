@@ -10,6 +10,9 @@
 </template>
 
 <script>
+  import * as scoutnet from '@/plugins/scoutnet'
+  window.scoutnet = scoutnet;
+  
   export default {
     name: 'about'
   }

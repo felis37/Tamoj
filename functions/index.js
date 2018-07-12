@@ -1,42 +1,43 @@
 const functions = require('firebase-functions')
-const express = require('express')
-const cors = require('cors')
-const axios = require('axios')
 
-//NEEDS AUTH!!!
+const authenticateScoutnetRequest = user => {
+	return new Promise((resolve, reject) => {
+		if (typeof user === 'undefined') {
+			reject(new functions.https.HttpsError(401, 'NO_AUTHENTICATION'))
+		} else {
+			resolve(true)
+		}
+	}).then(result => {
+		return 'User is authenticated!'
+	})
 
-const form = express()
-const api = express()
-
-form.use(cors({ origin: true }))
-api.use(cors({ origin: true }))
-
-form.get('/profile', (request, response) => {
-	response.send('Profilformdata hämtad!')
-})
-
-form.post('/profile', (request, response) => {
-	response.send('Profildata uppladdad!')
-})
-
-api.get('/test', (request, response) => {
-	response.send('Testar Api!')
-})
-
-const scoutnetForm = functions.https.onRequest(form)
-const scoutnetApi = functions.https.onRequest(api)
-
-module.exports = {
-	scoutnetForm,
-	scoutnetApi
+	/*
+	if (typeof user === 'undefined') {
+		throw new functions.https.HttpsError(401, 'NO_AUTHENTICATION')
+	} else {
+		return new Promise((resolve, reject) => {
+			return setTimeout(resolve('User is authenticated!'), 1000)
+		})
+			.then(result => {
+				return result
+			})
+			.catch(err => {
+				reject(new functions.https.HttpsError(err.code, err.message))
+			})
+	}
+	*/
 }
 
-
-/*
-// Create and Deploy Your First Cloud Functions
-// https://firebase.google.com/docs/functions/write-firebase-functions
-
-exports.helloWorld = functions.https.onRequest((request, response) => {
-	response.send('Hello from Firebase!')
+exports.test = functions.https.onCall((data, context) => {
+	return authenticateScoutnetRequest(context.user)
+		.then(result => {
+			console.log('here8')
+			return result
+		})
+		.catch(err => {
+			console.log('here9')
+			throw new functions.https.HttpsError(err.code, err.message)
+		})
 })
-*/
+
+//SCRAP!

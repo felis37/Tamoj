@@ -1,0 +1,21 @@
+Ingen autentisering eller användaruppgiftshämtande öht från Scoutnet.
+Istället ett jobb som varje dygn från pusha uppgifter från Firestore in i Scoutnet.
+
+Vid initering/onboarding så pre-creatas alla användare i Firestore. 
+Mail skickas sedan ut på primära mailadresserna för varje medlem med en tokenlänk (giltig i 7 dagar).
+Tokenlänken leder till en onboardingsida, där användaren kan sätta upp inloggning till profile(n/rna) antingen via SMS
+eller Google.
+Om samma PRIMÄRA (JÄTTESUPERVIKTIGT: FÅR ENDAST GÖRAS DÄR PRIMÄRA ÄR SAMMA FÖR TVÅ MEDLEMMAR, OAVSETT OMSTÄNDIGHETER!!!!
+BRYTER MOT SCOUTNETS AUTENTISERINGSREGLER ANNARS!!!) mailadress finns på två medlemmar i scoutnet/profiler, så får mottagaren
+endast ett mail för att sätta upp inloggning för samtliga medlemmmar under mailen
+
+(Ex: X skulle få mail:
+
+Klicka här för att göra det möjligt för dig att kunna hantera:
+A
+B
+C
+
+<LÄNK>
+
+)
