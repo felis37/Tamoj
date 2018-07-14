@@ -5,7 +5,7 @@
       <router-link to="/about">Om</router-link> | 
     </div>
     <h1>Logga in</h1>
-    <p>Här ska en användare kunna logga in med olika inloggningsmetoder. Förslag är: Scoutnet (a.k.a lokal medlemsinloggning), Google och Facebook</p>
+    <p>Här ska en användare kunna logga in med olika inloggningsmetoder. Förslag är: SMS-inloggning och Google</p>
     <SignInEmailPass @signInSuccess="signInSuccess" />
   </div>
 </template>

@@ -10,8 +10,9 @@
 </template>
 
 <script>
-  import * as scoutnet from '@/plugins/scoutnet'
-  window.scoutnet = scoutnet;
+  import { firestore } from '@/plugins/firebase'
+  window.firestore = firestore
+
   
   export default {
     name: 'about'

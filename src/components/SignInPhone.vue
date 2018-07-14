@@ -1,9 +1,8 @@
 <template>
-    <div class="sign-in-email-pass">
-        <h3>Logga in med e-post och lösenord (endast för test mot Firebase)</h3>
+    <div class="sign-in-phone">
+        <h3>Logga in med SMS-kod</h3>
         <form @submit.prevent="login">
-            <input type="text" placeholder="E-post" v-model="user.email"><br>
-            <input type="password" placeholder="Lösenord" v-model="user.password"><br>
+            <input type="tel" placeholder="Mobilnummer" v-model="user.mobile"><br>
             <button type="submit">Logga in</button>
         </form>
     </div>
