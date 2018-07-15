@@ -17,6 +17,11 @@ import {
   VBottomSheet,
   VAvatar,
   VSubheader,
+  VCard,
+  VForm,
+  VTextField,
+  VJumbotron,
+  VDialog,
   transitions
 } from 'vuetify'
 import { Touch } from 'vuetify/es5/directives'
@@ -39,6 +44,11 @@ Vue.use(Vuetify, {
     VBottomSheet,
     VAvatar,
     VSubheader,
+    VCard,
+    VForm,
+    VTextField,
+    VJumbotron,
+    VDialog,
     transitions
   },
   directives: {

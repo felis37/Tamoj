@@ -2,13 +2,15 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import { auth } from '@/plugins/firebase'
 
-//General views
-import NotFound from '@/views/NotFound.vue'
-import About from '@/views/About.vue'
-import SignIn from '@/views/SignIn.vue'
-import SignOut from '@/views/SignOut.vue'
+//Top views
+import Landing from '@/views/Landing.vue'
 import Admin from '@/views/Admin.vue'
 import Profile from '@/views/Profile.vue'
+
+//Landing subviews
+import About from '@/views/Landing/About.vue'
+import SignIn from '@/views/Landing/SignIn.vue'
+import SignOut from '@/views/Landing/SignOut.vue'
 
 //Admin subviews
 import Attendance from '@/views/Admin/Attendance.vue'
@@ -23,43 +25,37 @@ Vue.use(Router)
 let router = new Router({
   routes: [
     {
-      path: '*',
-      redirect: '/404'
-    },
-    {
       path: '/',
-      redirect: '/sign-in'
-    },
-    {
-      path: '/404',
-      name: 'notFound',
-      component: NotFound
-    },
-    {
-      path: '/about',
-      name: 'about',
-      component: About
-    },
-    {
-      path: '/sign-in',
-      name: 'signIn',
-      component: SignIn,
-      props: true
-    },
-    {
-      path: '/sign-out',
-      name: 'signOut',
-      component: SignOut
+      redirect: { name: 'SignIn' },
+      name: 'Landing',
+      component: Landing,
+      children: [
+        {
+          path: 'about',
+          name: 'About',
+          component: About
+        },
+        {
+          path: 'sign-in',
+          name: 'SignIn',
+          component: SignIn
+        },
+        {
+          path: 'sign-out',
+          name: 'SignOut',
+          component: SignOut  
+        }
+      ]
     },
     {
       path: '/admin',
       redirect: '/admin/attendance',
-      name: 'admin',
+      name: 'Admin',
       component: Admin,
       children: [
         {
           path: 'attendance',
-          name: 'attendance',
+          name: 'Attendance',
           component: Attendance,
           meta: {
             accessModules: ['admin']
@@ -69,13 +65,13 @@ let router = new Router({
     },
     {
       path: '/profile',
-      redirect: '/profile/details',
-      name: 'profile',
+      redirect: { name: 'Details' },
+      name: 'Profile',
       component: Profile,
       children: [
         {
           path: 'memberships',
-          name: 'memberships',
+          name: 'Memberships',
           component: Memberships,
           meta: {
             accessModules: ['profile']
@@ -83,7 +79,7 @@ let router = new Router({
         },
         {
           path: 'details',
-          name: 'details',
+          name: 'Details',
           component: Details,
           meta: {
             accessModules: ['profile']
@@ -91,7 +87,7 @@ let router = new Router({
         },
         {
           path: 'events',
-          name: 'events',
+          name: 'Events',
           component: Events,
           meta: {
             accessModules: ['profile']
@@ -110,12 +106,12 @@ router.beforeEach((to, from, next) => {
 
   if (!userHasAccessSomewhere) {
     if (viewRequiresAccess) {
-      next({name: 'signIn', params: { target: to.fullPath }})
+      next({name: 'SignIn', params: { target: to.fullPath }})
     } else {
       next()
     }
   } else {
-    if (!viewRequiresAccess && to.name !== 'signIn') {
+    if (!viewRequiresAccess && to.name !== 'SignIn') {
       next()
     } else if (viewRequiresAccess && viewAccessModules.some(r => userAccessModules.includes(r))) {
       next()
