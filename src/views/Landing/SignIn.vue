@@ -91,12 +91,19 @@
         (this.mobile != null && this.mobile.length > 0) ? this.mobileSendButton = true : this.mobileSendButton = false
       },
       mobileSubmit() {
+        console.log('here1')
         let phoneNumber = this.mobile
         let appVerifier = window.recaptchaVerifier
         auth.signInWithPhoneNumber(phoneNumber, appVerifier)
           .then(confirmationResult => {
+            console.log('here2')
             window.confirmationResult = confirmationResult
             this.dialog = true
+            console.log('here3')
+          }).catch(error => {
+            console.log('Error in sign in with phone number')
+            console.log(error.code)
+            console.log(error.message)
         })
       },
       confirmationCodeAbort() {
