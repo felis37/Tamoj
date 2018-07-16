@@ -12,12 +12,17 @@
       <v-flex xs12 md4>
         <v-layout column justify-center align-center>
           <v-flex xs12>
-            <v-btn class="sign-in-button" large color="white">
+            <v-btn 
+              class="sign-in-button" 
+              large 
+              color="white"
+              @click="showGoogle = true">
               <v-avatar>
                 <img src="@/assets/google-logo.png">
               </v-avatar>
               &nbsp;&nbsp;&nbsp;Logga in med Google
             </v-btn>
+            <SignInGoogle :google="showGoogle" @signInSuccess="signInSuccess" />
           </v-flex>
           
           <v-flex xs12>
@@ -45,20 +50,23 @@
 </template>
 
 <script>
-  import { firebase, auth } from '@/plugins/firebase'
+  import SignInGoogle from '@/components/SignInGoogle.vue'
   import SignInPhone from '@/components/SignInPhone.vue'
 
   export default {
     data() {
       return {
+        showGoogle: false,
         showPhone: false
       }
     },
     components: {
+      SignInGoogle,
       SignInPhone
     },
     methods: {
       signInSuccess(user) {
+        //TODO MORE HERE
         this.$router.replace({ name: 'Profile' })
       }
     }
