@@ -25,7 +25,7 @@
                         <v-icon large>arrow_drop_down</v-icon>
                     </a>
                     <v-list>
-                        <v-list-tile :to="{ name: 'admin'}">
+                        <v-list-tile :to="{ name: 'Admin'}">
                             <v-list-tile-action>
                                 <v-icon>layers</v-icon>
                             </v-list-tile-action>
@@ -71,7 +71,6 @@
 
 <script>
     export default {
-        name: 'profile',
         data() {
             return {
                 profileSelect: null,
@@ -82,14 +81,14 @@
                     accessModules: ['admin', 'profile'] //Get from Scoutnet
                 },
                 profileViews: [
-                    { title: 'Medlemskap', location: { name: 'memberships' }, icon: 'how_to_reg'},
-                    { title: 'Personuppgifter', location: { name: 'details' }, icon: 'person'},
-                    { title: 'Händelser', location: { name: 'events' }, icon: 'event'}
+                    { title: 'Medlemskap', location: { name: 'Memberships' }, icon: 'how_to_reg'},
+                    { title: 'Personuppgifter', location: { name: 'Details' }, icon: 'person'},
+                    { title: 'Händelser', location: { name: 'Events' }, icon: 'event'}
                 ],
                 profileMenuItems: [
-                    { title: 'Hjälp', location: { name: 'help' }, icon: 'help'},
-                    { title: 'Om Tamoj', location: { name: 'about' }, icon: 'info'},
-                    { title: 'Logga ut', location: { name: 'signOut' }, icon: 'power_settings_new' }
+                    { title: 'Hjälp', location: { name: 'Help' }, icon: 'help'},
+                    { title: 'Om Tamoj', location: { name: 'About' }, icon: 'info'},
+                    { title: 'Logga ut', location: { name: 'SignOut' }, icon: 'power_settings_new' }
                 ],
                 profiles: [
                     { name: 'Adam Bertilsson', avatar: '' },

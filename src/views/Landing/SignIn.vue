@@ -35,7 +35,7 @@
               </v-avatar>
               &nbsp;&nbsp;&nbsp;Logga in med SMS
             </v-btn>
-            <SignInPhone :phone="showPhone" @abort="showPhone = false" />
+            <SignInPhone :phone="showPhone" @signInSuccess="signInSuccess" />
           </v-flex>
 
         </v-layout>
@@ -56,6 +56,11 @@
     },
     components: {
       SignInPhone
+    },
+    methods: {
+      signInSuccess(user) {
+        this.$router.replace({ name: 'Profile' })
+      }
     }
   }
 </script>

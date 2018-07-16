@@ -52,7 +52,7 @@
                         <v-text-field
                             prepend-icon="confirmation_number"
                             type="tel"
-                            :loading="confirmationCode.length > 0 && confirmationCodeStatus.status == null"
+                            :loading="confirmationCode.length > 0 && (confirmationCode.length <= 5 || confirmationCodeStatus.status == null)"
                             v-model.trim="confirmationCode"
                             ref="confirmationCodeInput"
                             label="Bekräftelsekod"
@@ -121,7 +121,7 @@
                         this.mobile = ''
                         this.confirmationCode = ''
                         this.confirmationCodeDialog = false
-                        //alert('User successful sign in. UID is ' + user.uid)
+                        this.$emit('signInSuccess', user)
                     }).catch(error => {
                         this.confirmationCodeStatus.status = 'error'
                         alert('Error in confirmation of otp')
@@ -135,7 +135,6 @@
                 this.confirmationCode = ''
                 this.mobileDialog = false
                 this.confirmationCodeDialog = false
-                this.$emit('abort')
             }
         },
         mounted() {
