@@ -14,3 +14,8 @@ Top view data needs:
 - Can identity access x/y/z?
 - What is profile's name?
 - What is profile's avatar?
+
+#Roller
+- Identiteter kan vara kopplade som "Vårdnadshavare/anhörig" eller "Dig själv" mot en profil.
+    - Om identitet har koppling "Vårdhandshavare/anhörig" kommer identiten aldrig kunna administrera som profilen i fråga
+    - Det går endast att "vara" en profil med en identitet

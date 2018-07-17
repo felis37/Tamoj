@@ -68,15 +68,18 @@
     methods: {
       async onSignInSuccess() {
         let identityData = await getIdentityData()
+        console.log(identityData)
         this.$store.commit('SET_IDENTITY_DATA', identityData)
         
         let targetPath = this.$route.params.targetPath
         let targetPermission = this.$route.params.targetPermission
 
-        if (targetPath && identityData.permissions[targetPermission]) {
+        if (targetPath && identityData.permissions.includes(targetPermission)) {
           this.$router.replace({ path: targetPath })
-        } else if (identityData.permissions) {
-          this.$router.replace({ name: identityData.permissions[0] })
+        } else if (identityData.permissions.includes('Leader')) {
+          this.$router.replace({ name: 'Attendance' })
+        } else if (identityData.permissions.includes('Profile')) {
+          this.$router.replace({ name: 'Details' })
         } else {
           throw new Error('No permissions!! TODO')
         }

@@ -9,7 +9,7 @@
                         </v-avatar>
                     </v-list-tile-avatar>
                     <v-list-tile-content>
-                        <v-list-tile-title>Felix Lennartsson</v-list-tile-title>
+                        <v-list-tile-title>{{ displayName }}</v-list-tile-title>
                         <v-list-tile-sub-title><v-btn id="profile-button" outline small to="/profile">Min profil<v-icon right>launch</v-icon></v-btn></v-list-tile-sub-title>
                     </v-list-tile-content>
                 </v-list-tile>
@@ -74,6 +74,11 @@
         },
         methods: {
 
+        },
+        computed: {
+            displayName () {
+                return store.state.identityData.identityMetadata.displayName
+            }
         }
     }
 </script>

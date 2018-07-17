@@ -12,12 +12,14 @@
 <script>
   import { getAuthenticatedInitialRedirect, getLeaderPermission, getProfilePermission } from '@/modules/identity'
   import { firebase, auth, firestore } from '@/plugins/firebase'
+  import store from '@/plugins/store'
   window.getAuthenticatedInitialRedirect = getAuthenticatedInitialRedirect
   window.getLeaderPermission = getLeaderPermission
   window.getProfilePermission = getProfilePermission
   window.firebase = firebase
   window.auth = auth
   window.firestore = firestore
+  window.store = store
   
   export default {
   }

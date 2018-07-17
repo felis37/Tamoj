@@ -116,9 +116,9 @@ router.beforeEach(async (to, from, next) => {
 			store.commit('SET_IDENTITY_DATA', identityData)
 			if (to.name === 'SignIn' && identityData.permissions) {
 				next({ name: identityData.permissions[0] })
-			} else if (viewPermission in identityData.permissions) {
+			} else if (identityData.permissions.includes(viewPermission)) {
 				next()
-			} else if ('Profile' in identityData.permissions) {
+			} else if (identityData.permissions.includes('Profile')) {
 				next({ name: 'Profile' })
 			} else {
 				next(new Error('Can not navigate due to no permissions!'))
