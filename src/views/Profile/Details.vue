@@ -20,7 +20,7 @@
       }
     },
     mounted() {
-      console.log(this.$route.params)
+      console.log(this.$store.state.identityData)
     }
   }
 </script>

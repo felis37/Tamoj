@@ -67,26 +67,18 @@
     },
     methods: {
       async onSignInSuccess() {
-        //TODO: Target param!!
         let identityData = await getIdentityData()
-        if (identityData.leaderPermission) {
-          this.$router.replace({
-            name: 'Attendance',
-            params: {
-              profilePermission: identityData.profilePermission,
-              identityMetadata: identityData.identityMetadata,
-						  leaderDocs: identityData.leaderDocs
-					  }
-          })
-        } else if (identityData.profilePermission) {
-          this.$router.replace({
-            name: 'Details',
-            params: {
-              leaderPermission: identityData.leaderPermission,
-              identityMetadata: identityData.identityMetadata,
-						  profileDocs: identityData.profileDocs
-					  }
-          })
+        this.$store.commit('SET_IDENTITY_DATA', identityData)
+        
+        let targetPath = this.$route.params.targetPath
+        let targetPermission = this.$route.params.targetPermission
+
+        if (targetPath && identityData.permissions[targetPermission]) {
+          this.$router.replace({ path: targetPath })
+        } else if (identityData.permissions) {
+          this.$router.replace({ name: identityData.permissions[0] })
+        } else {
+          throw new Error('No permissions!! TODO')
         }
       }
     }

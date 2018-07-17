@@ -4,6 +4,7 @@ import {
 	authenticated,
 	getIdentityData
 } from '@/modules/identity'
+import store from '@/plugins/store'
 
 //Head views
 import Landing from '@/views/Landing.vue'
@@ -36,25 +37,21 @@ let router = new Router({
 			redirect: { name: 'SignIn' },
 			name: 'Landing',
 			component: Landing,
-			props: true,
 			children: [
 				{
 					path: 'about',
 					name: 'About',
-					component: About,
-					props: true
+					component: About
 				},
 				{
 					path: 'sign-in',
 					name: 'SignIn',
-					component: SignIn,
-					props: true
+					component: SignIn
 				},
 				{
 					path: 'sign-out',
 					name: 'SignOut',
-					component: SignOut,
-					props: true
+					component: SignOut
 				}
 			]
 		},
@@ -63,14 +60,12 @@ let router = new Router({
 			redirect: { name: 'Attendance' },
 			name: 'Leader',
 			component: Leader,
-			props: true,
 			children: [
 				{
 					path: 'attendance',
 					name: 'Attendance',
 					component: Attendance,
-					meta: { permission: 'Leader' },
-					props: true
+					meta: { permission: 'Leader' }
 				}
 			]
 		},
@@ -79,28 +74,24 @@ let router = new Router({
 			redirect: { name: 'Details' },
 			name: 'Profile',
 			component: Profile,
-			props: true,
 			children: [
 				{
 					path: 'memberships',
 					name: 'Memberships',
 					component: Memberships,
-					meta: { permission: 'Profile' },
-					props: true
+					meta: { permission: 'Profile' }
 				},
 				{
 					path: 'details',
 					name: 'Details',
 					component: Details,
-					meta: { permission: 'Profile' },
-					props: true
+					meta: { permission: 'Profile' }
 				},
 				{
 					path: 'events',
 					name: 'Events',
 					component: Events,
-					meta: { permission: 'Profile' },
-					props: true
+					meta: { permission: 'Profile' }
 				}
 			]
 		}
@@ -111,75 +102,26 @@ router.beforeEach(async (to, from, next) => {
 	const viewPermission = to.meta.permission
 	const identityAuthenticated = authenticated()
 
-	console.log(next)
-
 	if (!identityAuthenticated) {
 		if (viewPermission) {
-			next({ name: 'SignIn', props: { target: to.fullPath } })
+			next({ name: 'SignIn', params: { targetPath: to.fullPath, targetPermission: viewPermission }})
 		} else {
 			next()
 		}
 	} else {
-		if (!viewPermission && to.name !== 'SignIn') {
+		if ((!viewPermission && to.name !== 'SignIn') || (viewPermission && viewPermission === from.meta.permission)) {
 			next()
-		} else if (viewPermission) {
-			if (viewPermission === from.meta.permission) {
-				next()
-			} else {
-				let identityData = await getIdentityData()
-				if (viewPermission === 'Leader' && identityData.leaderPermission) {
-					next({
-						props: {
-							profilePermission: identityData.profilePermission,
-							identityMetadata: identityData.identityMetadata, 
-							leaderDocs: identityData.leaderDocs 
-						}
-					})
-				} else if (identityData.profilePermission) {
-					if (viewPermission === 'Profile') {
-						next({
-							props: {
-								leaderPermission: identityData.leaderPermission,
-								identityMetadata: identityData.identityMetadata,
-								profileDocs: identityData.profileDocs
-							}
-						})
-					} else {
-						next({ 
-							name: 'Profile',
-							props: {
-								leaderPermission: identityData.leaderPermission,
-								identityMetadata: identityData.identityMetadata,
-								profileDocs: identityData.profileDocs
-							}
-						})
-					}
-				} else {
-					next(new Error('No permissions!'))
-				}
-			}
 		} else {
 			let identityData = await getIdentityData()
-			if (identityData.leaderPermission) {
-				next({
-					name: 'Attendance',
-					props: {
-						leaderPermission: identityData.leaderPermission,
-						identityMetadata: identityData.identityMetadata,
-						profileDocs: identityData.profileDocs
-					}
-				})
-			} else if (identityData.profilePermission) {
-				next({
-					name: 'Details',
-					props: { 
-						profilePermission: identityData.profilePermission,
-						identityMetadata: identityData.identityMetadata, 
-						leaderDocs: identityData.leaderDocs 
-					}
-				})
+			store.commit('SET_IDENTITY_DATA', identityData)
+			if (to.name === 'SignIn' && identityData.permissions) {
+				next({ name: identityData.permissions[0] })
+			} else if (viewPermission in identityData.permissions) {
+				next()
+			} else if ('Profile' in identityData.permissions) {
+				next({ name: 'Profile' })
 			} else {
-				next(new Error('No permissions!'))
+				next(new Error('Can not navigate due to no permissions!'))
 			}
 		}
 	}
