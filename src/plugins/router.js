@@ -6,7 +6,7 @@ import {
 	getHasViewPermission
 } from '@/modules/identity'
 
-//Top views
+//Head views
 import Landing from '@/views/Landing.vue'
 import Leader from '@/views/Leader.vue'
 import Profile from '@/views/Profile.vue'
@@ -119,13 +119,14 @@ router.beforeEach(async (to, from, next) => {
 	} else {
 		if (!viewRequiresAccess && to.name !== 'SignIn') {
 			next()
-		} else if (
-			viewRequiresAccess &&
-			(await getHasViewPermission(to.meta.auth))
-		) {
-			next()
-		} else {
-			next({ name: await getAuthenticatedInitialRedirect() })
+		} else if (viewRequiresAccess) {
+			if (to.meta.auth === from.meta.auth) {
+				next()
+			} else if (await getHasViewPermission(to.meta.auth)) {
+				next()
+			} else {
+				next({ name: await getAuthenticatedInitialRedirect() })
+			}
 		}
 	}
 })
