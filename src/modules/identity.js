@@ -1,9 +1,11 @@
 import { auth, firestore } from '@/plugins/firebase'
 
-const getAuthenticatedInitialRedirect = async (uid = null) => {
-	if (uid == null) {
-		uid = auth.currentUser.uid
-	}
+const getAuthenticated = () => {
+	return auth.currentUser != null
+}
+
+const getAuthenticatedInitialRedirect = async () => {
+	let uid = auth.currentUser.uid
 	let leaderMemberships = await firestore
 		.collection('memberships')
 		.where(`permissions.r.${uid}`, '==', true)
@@ -24,7 +26,7 @@ const getAuthenticatedInitialRedirect = async (uid = null) => {
 	}
 }
 
-const getLeaderPermission = async (uid = null) => {
+const getHasLeaderPermission = async (uid = null) => {
 	if (uid == null) {
 		uid = auth.currentUser.uid
 	}
@@ -36,7 +38,7 @@ const getLeaderPermission = async (uid = null) => {
 	return leaderMemberships.size > 0
 }
 
-const getProfilePermission = async (uid = null) => {
+const getHasProfilePermission = async (uid = null) => {
 	if (uid == null) {
 		uid = auth.currentUser.uid
 	}
@@ -47,8 +49,18 @@ const getProfilePermission = async (uid = null) => {
 	return profiles.size > 0
 }
 
+const getHasViewPermission = async view => {
+	if (view === 'Leader') {
+		return getHasLeaderPermission()
+	} else if (view === 'Profile') {
+		return getHasProfilePermission()
+	}
+}
+
 export {
+	getAuthenticated,
 	getAuthenticatedInitialRedirect,
-	getLeaderPermission,
-	getProfilePermission
+	getHasLeaderPermission,
+	getHasProfilePermission,
+	getHasViewPermission
 }

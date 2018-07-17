@@ -16,12 +16,12 @@
             </v-list>
             <v-list subheader>
                 <v-divider />
-                <v-list-tile v-for="adminView in adminViews" :key="adminView.title" :to="adminView.path">
+                <v-list-tile v-for="leaderView in leaderViews" :key="leaderView.title" :to="leaderView.path">
                     <v-list-tile-action>
-                        <v-icon>{{ adminView.icon }}</v-icon>
+                        <v-icon>{{ leaderView.icon }}</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
-                        <v-list-tile-title>{{ adminView.title }}</v-list-tile-title>
+                        <v-list-tile-title>{{ leaderView.title }}</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
                 <v-divider />
@@ -39,7 +39,7 @@
             <v-toolbar-side-icon class="hidden-lg-and-up" @click.stop="drawer = !drawer" />
             <v-spacer />
             <v-icon x-large>layers</v-icon>
-            <v-toolbar-title><span class="hidden-sm-and-down">Administration -&nbsp;</span>Närvaro</v-toolbar-title> <!--Get view title from adminViews (do loop through to find object with name for route, then get that title)-->
+            <v-toolbar-title><span class="hidden-sm-and-down">Ledarsidorna -&nbsp;</span>Närvaro</v-toolbar-title> <!--Get view title from leaderViews (do loop through to find object with name for route, then get that title)-->
             <v-spacer />
         </v-toolbar>
         <v-content>
@@ -52,7 +52,6 @@
 
 <script>
     export default {
-        name: 'admin',
         data() {
             return {
                 drawer: null,
@@ -60,14 +59,14 @@
                     displayName: '',
                     email: ''
                 },
-                adminViews: [
-                    { title: 'Närvaro', path: '/admin/attendance', name: 'attendance', icon: 'assignment' },
-                    { title: 'Meddelanden & utskick', path: '/admin/communication', icon: 'question_answer' },
-                    { title: 'Kalender', path: '/admin/calendar', icon: 'today' },
-                    { title: 'Hantera avdelning', path: '/admin/manage-groups', icon: 'people' }
+                leaderViews: [
+                    { title: 'Närvaro', path: '/leader/attendance', name: 'attendance', icon: 'assignment' },
+                    { title: 'Meddelanden & utskick', path: '/leader/communication', icon: 'question_answer' },
+                    { title: 'Kalender', path: '/leader/calendar', icon: 'today' },
+                    { title: 'Hantera avdelning', path: '/leader/manage-groups', icon: 'people' }
                 ],
                 supportViews: [
-                    { title: 'Hjälp', path: '/admin/help', icon: 'help' },
+                    { title: 'Hjälp', path: '/leader/help', icon: 'help' },
                     { title: 'Om Tamoj', path: '/about', icon: 'info' },
                     { title: 'Logga ut', path: '/sign-out', icon: 'power_settings_new' }
                 ]

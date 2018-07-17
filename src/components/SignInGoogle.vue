@@ -1,5 +1,4 @@
-<template>
-</template>
+<template />
 
 <script>
     import { firebase, auth } from '@/plugins/firebase'
@@ -36,14 +35,6 @@
         },
         mounted() {
             this.provider = new firebase.auth.GoogleAuthProvider()
-            auth.getRedirectResult()
-                .then(result => {
-                    this.$emit('signInSuccess', result.user)
-                }).catch(error => {
-                    alert('Error!')
-                    console.log(error.code)
-                    console.log(error.message)
-            })
         }
     }
 </script>

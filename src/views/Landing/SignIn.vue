@@ -22,7 +22,7 @@
               </v-avatar>
               &nbsp;&nbsp;&nbsp;Logga in med Google
             </v-btn>
-            <SignInGoogle :google="showGoogle" @signInSuccess="signInSuccess" />
+            <SignInGoogle :google="showGoogle" @signInSuccess="onSignInSuccess" />
           </v-flex>
           
           <v-flex xs12>
@@ -40,7 +40,7 @@
               </v-avatar>
               &nbsp;&nbsp;&nbsp;Logga in med SMS
             </v-btn>
-            <SignInPhone :phone="showPhone" @signInSuccess="signInSuccess" />
+            <SignInPhone :phone="showPhone" @signInSuccess="onSignInSuccess" />
           </v-flex>
 
         </v-layout>
@@ -52,6 +52,7 @@
 <script>
   import SignInGoogle from '@/components/SignInGoogle.vue'
   import SignInPhone from '@/components/SignInPhone.vue'
+  import { getAuthenticatedInitialRedirect } from '@/modules/identity'
 
   export default {
     data() {
@@ -65,9 +66,13 @@
       SignInPhone
     },
     methods: {
-      signInSuccess(user) {
-        //TODO MORE HERE
-        this.$router.replace({ name: 'Profile' })
+      async onSignInSuccess() {
+        let possibleTarget = this.$route.params.target
+        if (possibleTarget != null) {
+          this.$router.replace({ path: possibleTarget })
+        } else {
+          this.$router.replace({ name: await getAuthenticatedInitialRedirect() })
+        }
       }
     }
   }

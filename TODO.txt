@@ -1,0 +1,16 @@
+# Sign in error handling
+# Data flows. Idea: Top views should get their required data for render 
+directly from router/onSignInSuccess. This should be passed as param, and packaged by
+identity. This way, access/top view data gets combined into one call, and thus top views
+can render directly after this call is completed.
+
+Following this, subviews can make their own seperate calls in their own logic for their own
+view data. Top view will then be rendered, and the subview data loading will have to be
+expressed with spinners/ui "preload"
+
+Access needs:
+- Can identity access view?
+Top view data needs:
+- Can identity access x/y/z?
+- What is profile's name?
+- What is profile's avatar?

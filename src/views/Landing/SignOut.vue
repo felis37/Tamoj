@@ -1,5 +1,4 @@
-<template>
-</template>
+<template />
 
 <script>
 import { auth } from '@/plugins/firebase'
@@ -10,7 +9,7 @@ export default {
         async signOut() {
             try {
                 await auth.signOut()
-                this.$router.replace('sign-in')
+                this.$router.replace({ name: 'SignIn' })
             } catch(err) {
                 alert('Ett fel inträffade! Felmeddelande: ' + err.message)
             }
