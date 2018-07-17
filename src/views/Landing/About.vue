@@ -10,11 +10,15 @@
 </template>
 
 <script>
-  import { firestore } from '@/plugins/firebase'
+  import { getAuthenticatedInitialRedirect, getLeaderPermission, getProfilePermission } from '@/modules/identity'
+  import { firebase, auth, firestore } from '@/plugins/firebase'
+  window.getAuthenticatedInitialRedirect = getAuthenticatedInitialRedirect
+  window.getLeaderPermission = getLeaderPermission
+  window.getProfilePermission = getProfilePermission
+  window.firebase = firebase
+  window.auth = auth
   window.firestore = firestore
-
   
   export default {
-    name: 'about'
   }
 </script>
