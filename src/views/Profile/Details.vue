@@ -12,13 +12,15 @@
   window.scoutnet = scoutnet;
    
   export default {
-    name: 'unique_details',
     methods: {
       async getFunctionData() {
         let helloWorld = functions.httpsCallable('helloWorld')
         let result = await helloWorld()
         console.log(result)
       }
+    },
+    mounted() {
+      console.log(this.$route.params)
     }
   }
 </script>

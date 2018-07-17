@@ -1,66 +1,42 @@
 import { auth, firestore } from '@/plugins/firebase'
 
-const getAuthenticated = () => {
+const authenticated = () => {
 	return auth.currentUser != null
 }
 
-const getAuthenticatedInitialRedirect = async () => {
+const getIdentityData = async() => {
+	let response = {}
 	let uid = auth.currentUser.uid
-	let leaderMemberships = await firestore
-		.collection('memberships')
-		.where(`permissions.r.${uid}`, '==', true)
-		.where('role', '==', 'leader')
-		.get()
-	if (leaderMemberships.size) {
-		return 'Leader'
-	} else {
-		let profiles = await firestore
-			.collection('profiles')
-			.where(`permissions.rw.${uid}`, '==', true)
-			.get()
-		if (profiles.size) {
-			return 'Profile'
-		} else {
-			return null
-		}
+	
+	let leaderDocs = await firestore.collection('memberships').where(`permissions.r.${uid}`, '==', true).where('role', '==', 'leader').get()
+	let profileDocs = await firestore.collection('profiles').where(`permissions.rw.${uid}`, '==', true).get()
+	
+	response['leaderPermission'] = leaderDocs.size > 0
+	response['profilePermission'] = profileDocs.size > 0
+	response['leaderDocs'] = leaderDocs
+	response['profileDocs'] = profileDocs
+	
+	leaderDocs.forEach(leaderDoc => {
+		profileDocs.forEach(profileDoc => {
+			if (leaderDoc.data().profile.id === profileDoc.id) {
+				let profileData = profileDoc.data()
+				response['identityMetadata'] = { 
+					'displayName': `${profileData.details.general.givenName} ${profileData.details.general.familyName}`,
+					'profilePicUrl': profileData.details.general.avatar
+				}
+				return response
+			}
+		})
+	})
+	let profileData = profileDocs.docs[0].data()
+	response['identityMetadata'] = {
+		'displayName': `${profileData.details.general.givenName} ${profileData.details.general.familyName}`,
+		'profilePicUrl': profileData.details.general.avatar
 	}
-}
-
-const getHasLeaderPermission = async (uid = null) => {
-	if (uid == null) {
-		uid = auth.currentUser.uid
-	}
-	let leaderMemberships = await firestore
-		.collection('memberships')
-		.where(`permissions.r.${uid}`, '==', true)
-		.where('role', '==', 'leader')
-		.get()
-	return leaderMemberships.size > 0
-}
-
-const getHasProfilePermission = async (uid = null) => {
-	if (uid == null) {
-		uid = auth.currentUser.uid
-	}
-	let profiles = await firestore
-		.collection('profiles')
-		.where(`permissions.rw.${uid}`, '==', true)
-		.get()
-	return profiles.size > 0
-}
-
-const getHasViewPermission = async view => {
-	if (view === 'Leader') {
-		return getHasLeaderPermission()
-	} else if (view === 'Profile') {
-		return getHasProfilePermission()
-	}
+	return response
 }
 
 export {
-	getAuthenticated,
-	getAuthenticatedInitialRedirect,
-	getHasLeaderPermission,
-	getHasProfilePermission,
-	getHasViewPermission
+	authenticated,
+	getIdentityData
 }

@@ -1,9 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import {
-	getAuthenticated,
-	getAuthenticatedInitialRedirect,
-	getHasViewPermission
+	authenticated,
+	getIdentityData
 } from '@/modules/identity'
 
 //Head views
@@ -37,21 +36,25 @@ let router = new Router({
 			redirect: { name: 'SignIn' },
 			name: 'Landing',
 			component: Landing,
+			props: true,
 			children: [
 				{
 					path: 'about',
 					name: 'About',
-					component: About
+					component: About,
+					props: true
 				},
 				{
 					path: 'sign-in',
 					name: 'SignIn',
-					component: SignIn
+					component: SignIn,
+					props: true
 				},
 				{
 					path: 'sign-out',
 					name: 'SignOut',
-					component: SignOut
+					component: SignOut,
+					props: true
 				}
 			]
 		},
@@ -60,14 +63,14 @@ let router = new Router({
 			redirect: { name: 'Attendance' },
 			name: 'Leader',
 			component: Leader,
+			props: true,
 			children: [
 				{
 					path: 'attendance',
 					name: 'Attendance',
 					component: Attendance,
-					meta: {
-						auth: 'Leader'
-					}
+					meta: { permission: 'Leader' },
+					props: true
 				}
 			]
 		},
@@ -76,56 +79,107 @@ let router = new Router({
 			redirect: { name: 'Details' },
 			name: 'Profile',
 			component: Profile,
+			props: true,
 			children: [
 				{
 					path: 'memberships',
 					name: 'Memberships',
 					component: Memberships,
-					meta: {
-						auth: 'Profile'
-					}
+					meta: { permission: 'Profile' },
+					props: true
 				},
 				{
 					path: 'details',
 					name: 'Details',
 					component: Details,
-					meta: {
-						auth: 'Profile'
-					}
+					meta: { permission: 'Profile' },
+					props: true
 				},
 				{
 					path: 'events',
 					name: 'Events',
 					component: Events,
-					meta: {
-						auth: 'Profile'
-					}
+					meta: { permission: 'Profile' },
+					props: true
 				}
 			]
 		}
 	]
 })
 
-router.beforeEach(async (to, from, next) => {
-	const viewRequiresAccess = to.meta.auth != null
-	const identityAuthenticated = getAuthenticated()
+router.beforeEach(async (to, from, next) => {	
+	const viewPermission = to.meta.permission
+	const identityAuthenticated = authenticated()
+
+	console.log(next)
 
 	if (!identityAuthenticated) {
-		if (viewRequiresAccess) {
-			next({ name: 'SignIn', params: { target: to.fullPath } })
+		if (viewPermission) {
+			next({ name: 'SignIn', props: { target: to.fullPath } })
 		} else {
 			next()
 		}
 	} else {
-		if (!viewRequiresAccess && to.name !== 'SignIn') {
+		if (!viewPermission && to.name !== 'SignIn') {
 			next()
-		} else if (viewRequiresAccess) {
-			if (to.meta.auth === from.meta.auth) {
-				next()
-			} else if (await getHasViewPermission(to.meta.auth)) {
+		} else if (viewPermission) {
+			if (viewPermission === from.meta.permission) {
 				next()
 			} else {
-				next({ name: await getAuthenticatedInitialRedirect() })
+				let identityData = await getIdentityData()
+				if (viewPermission === 'Leader' && identityData.leaderPermission) {
+					next({
+						props: {
+							profilePermission: identityData.profilePermission,
+							identityMetadata: identityData.identityMetadata, 
+							leaderDocs: identityData.leaderDocs 
+						}
+					})
+				} else if (identityData.profilePermission) {
+					if (viewPermission === 'Profile') {
+						next({
+							props: {
+								leaderPermission: identityData.leaderPermission,
+								identityMetadata: identityData.identityMetadata,
+								profileDocs: identityData.profileDocs
+							}
+						})
+					} else {
+						next({ 
+							name: 'Profile',
+							props: {
+								leaderPermission: identityData.leaderPermission,
+								identityMetadata: identityData.identityMetadata,
+								profileDocs: identityData.profileDocs
+							}
+						})
+					}
+				} else {
+					next(new Error('No permissions!'))
+				}
+			}
+		} else {
+			let identityData = await getIdentityData()
+			if (identityData.leaderPermission) {
+				next({
+					name: 'Attendance',
+					props: {
+						leaderPermission: identityData.leaderPermission,
+						identityMetadata: identityData.identityMetadata,
+						profileDocs: identityData.profileDocs
+					}
+				})
+			} else if (identityData.profilePermission) {
+				next({
+					name: 'Details',
+					props: { 
+						profilePermission: identityData.profilePermission,
+						identityMetadata: identityData.identityMetadata, 
+						leaderDocs: identityData.leaderDocs 
+					}
+				})
+			} else {
+				next(new Error('No permissions!'))
 			}
 		}
 	}

@@ -52,7 +52,7 @@
 <script>
   import SignInGoogle from '@/components/SignInGoogle.vue'
   import SignInPhone from '@/components/SignInPhone.vue'
-  import { getAuthenticatedInitialRedirect } from '@/modules/identity'
+  import { getIdentityData } from '@/modules/identity'
 
   export default {
     data() {
@@ -67,11 +67,26 @@
     },
     methods: {
       async onSignInSuccess() {
-        let possibleTarget = this.$route.params.target
-        if (possibleTarget != null) {
-          this.$router.replace({ path: possibleTarget })
-        } else {
-          this.$router.replace({ name: await getAuthenticatedInitialRedirect() })
+        //TODO: Target param!!
+        let identityData = await getIdentityData()
+        if (identityData.leaderPermission) {
+          this.$router.replace({
+            name: 'Attendance',
+            params: {
+              profilePermission: identityData.profilePermission,
+              identityMetadata: identityData.identityMetadata,
+						  leaderDocs: identityData.leaderDocs
+					  }
+          })
+        } else if (identityData.profilePermission) {
+          this.$router.replace({
+            name: 'Details',
+            params: {
+              leaderPermission: identityData.leaderPermission,
+              identityMetadata: identityData.identityMetadata,
+						  profileDocs: identityData.profileDocs
+					  }
+          })
         }
       }
     }
