@@ -1,9 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import {
-	authenticated,
-	getIdentityData
-} from '@/modules/identity'
+import { authenticated, getIdentityData } from '@/modules/identity'
 import store from '@/plugins/store'
 
 //Head views
@@ -98,22 +95,27 @@ let router = new Router({
 	]
 })
 
-router.beforeEach(async (to, from, next) => {	
+router.beforeEach(async (to, from, next) => {
 	const viewPermission = to.meta.permission
 	const identityAuthenticated = authenticated()
 
 	if (!identityAuthenticated) {
 		if (viewPermission) {
-			next({ name: 'SignIn', params: { targetPath: to.fullPath, targetPermission: viewPermission }})
+			next({
+				name: 'SignIn',
+				params: { targetPath: to.fullPath, targetPermission: viewPermission }
+			})
 		} else {
 			next()
 		}
 	} else {
-		if ((!viewPermission && to.name !== 'SignIn') || (viewPermission && viewPermission === from.meta.permission)) {
+		if (
+			(!viewPermission && to.name !== 'SignIn') ||
+			(viewPermission && viewPermission === from.meta.permission)
+		) {
 			next()
 		} else {
 			let identityData = await getIdentityData()
-			store.commit('SET_IDENTITY_DATA', identityData)
 			if (to.name === 'SignIn' && identityData.permissions) {
 				next({ name: identityData.permissions[0] })
 			} else if (identityData.permissions.includes(viewPermission)) {

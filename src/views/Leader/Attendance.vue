@@ -1,11 +1,11 @@
 <template>
-    <h1>Attendance!</h1>
+    <h1>{{ 'Hej ' + identityProfiles[0].details.general.givenName + '!' }}</h1>
 </template>
 
 <script>
+  import { mapState } from 'vuex'
+  
   export default {
-    mounted() {
-      console.log(this.$store.state.identityData)
-    }
+    computed: mapState(['identityProfiles'])
   }
 </script>
