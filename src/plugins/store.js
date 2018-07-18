@@ -1,19 +1,41 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import myFirestore from '@/modules/firestore'
+import { firebaseMutations, firebaseAction } from 'vuexfire'
+import { resolve } from 'url';
 
 Vue.use(Vuex)
 
-
-
 export default new Vuex.Store({
 	state: {
-		identityData: {},
-		identityProfiles: []
+		identityProfiles: [],
+		identityProfilesLoaded: null,
+		identityLeaderMemberships: [],
+		identityLeaderMembershipsLoaded: null
 	},
 	mutations: {
-		watchIdentityProfiles: (state, data) => (state.identityProfiles = data),
-		SET_IDENTITY_DATA: (state, data) => (state.identityData = data)
+		SET_IDENTITY_DATA: (state, data) => state.identityData = data,
+		...firebaseMutations,
+		setIdentityProfilesLoaded: (state, data) => state.identityProfilesLoaded = data,
+		setIdentityLeaderMembershipsLoaded: (state, data) => state.identityLeaderMembershipsLoaded = data
 	},
-	actions: {}
+	actions: {
+		setIdentityProfilesRef: firebaseAction(async ({ bindFirebaseRef }, ref) => {
+			await setTimeout(alert('hi'), 8000)
+			/*return new Promise((resolve, reject) => {
+				setTimeout(resolve('horse'), 80000)
+			})*/
+
+			/*bindFirebaseRef('identityProfiles', ref).then(() => {
+				return true
+			})*/
+		}),
+		async test(context, data) {
+
+		},
+		setIdentityLeaderMembershipsRef: firebaseAction(async ({ bindFirebaseRef }, ref) => {
+			bindFirebaseRef('identityLeaderMemberships', ref).then(() => {
+				return true
+			})
+		})
+	}
 })
