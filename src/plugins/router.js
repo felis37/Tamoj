@@ -118,13 +118,14 @@ router.beforeEach(async (to, from, next) => {
 			const identityProfilesRef = firestore.collection('profiles').where(`permissions.rw.${auth.currentUser.uid}`, '==', true)
 			const identityLeaderMembershipsRef = firestore.collection('memberships').where(`permissions.r.${auth.currentUser.uid}`, '==', true)
 
-			const res = await store.dispatch('test')
-			alert(res)
+			store.watch(state => state.identityProfilesLoaded, (oldValue, newValue) => {
+				if (newValue) {
+					console.log(store.state.identityProfiles[0].general.details.givenName)
+				}
+			})
 
-			/*console.log(store.dispatch('setIdentityProfilesRef', identityProfilesRef))
-			console.log(store.dispatch('setIdentityLeaderMembershipsRef', identityLeaderMembershipsRef))*/
-
-			//console.log(store.state.identityProfiles[0].general.details.givenName)
+			await store.dispatch('setIdentityProfilesRef', identityProfilesRef)
+			await store.dispatch('setIdentityLeaderMembershipsRef', identityLeaderMembershipsRef)
 
 			let permissions = []
 			

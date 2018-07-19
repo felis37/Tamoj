@@ -19,22 +19,14 @@ export default new Vuex.Store({
 		setIdentityLeaderMembershipsLoaded: (state, data) => state.identityLeaderMembershipsLoaded = data
 	},
 	actions: {
-		setIdentityProfilesRef: firebaseAction(async ({ bindFirebaseRef }, ref) => {
-			await setTimeout(alert('hi'), 8000)
-			/*return new Promise((resolve, reject) => {
-				setTimeout(resolve('horse'), 80000)
-			})*/
-
-			/*bindFirebaseRef('identityProfiles', ref).then(() => {
-				return true
-			})*/
+		setIdentityProfilesRef: firebaseAction(({ bindFirebaseRef, commit }, ref) => {
+			bindFirebaseRef('identityProfiles', ref).then(() => {
+				commit('setIdentityProfilesLoaded', true)
+			})
 		}),
-		test ({}, ref) {
-			
-		},
-		setIdentityLeaderMembershipsRef: firebaseAction(async ({ bindFirebaseRef }, ref) => {
+		setIdentityLeaderMembershipsRef: firebaseAction(({ bindFirebaseRef, commit }, ref) => {
 			bindFirebaseRef('identityLeaderMemberships', ref).then(() => {
-				return true
+				commit('setIdentityLeaderMembershipsLoaded', true)
 			})
 		})
 	}
