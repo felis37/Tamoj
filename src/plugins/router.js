@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import { auth, firestore } from '@/plugins/firebase'
-import store from '@/plugins/store'
+import { auth } from '@/plugins/firebase'
+import login from '@/modules/login'
 
 //Head views
 import Landing from '@/views/Landing.vue'
@@ -97,7 +97,7 @@ let router = new Router({
 
 router.beforeEach(async (to, from, next) => {
 	const viewPermission = to.meta.permission
-	const identityAuthenticated = auth.currentUser != null
+	const identityAuthenticated = auth.currentUser != null //Todo get from store instead
 
 	if (!identityAuthenticated) {
 		if (viewPermission) {
@@ -115,29 +115,17 @@ router.beforeEach(async (to, from, next) => {
 		) {
 			next()
 		} else {
-			const identityProfilesRef = firestore.collection('profiles').where(`permissions.rw.${auth.currentUser.uid}`, '==', true)
-			const identityLeaderMembershipsRef = firestore.collection('memberships').where(`permissions.r.${auth.currentUser.uid}`, '==', true)
-
-			store.watch(state => state.identityProfilesLoaded, (oldValue, newValue) => {
-				if (newValue) {
-					console.log(store.state.identityProfiles[0].general.details.givenName)
-				}
-			})
-
-			await store.dispatch('setIdentityProfilesRef', identityProfilesRef)
-			await store.dispatch('setIdentityLeaderMembershipsRef', identityLeaderMembershipsRef)
-
+			const loginDoc = await login.getLogin()
+			const loginData = loginDoc.data()
 			let permissions = []
-			
-			if (store.state.identityLeaderMemberships.size > 0) {
+
+			if (Object.keys(loginData.groupLeader).length) {
 				permissions.push('Leader')
 			}
 
-			if (store.state.identityProfiles.size > 0) {
+			if (Object.keys(loginData.profiles).length) {
 				permissions.push('Profile')
 			}
-
-			console.log(permissions)
 
 			if (to.name === 'SignIn' && permissions) {
 				next({ name: permissions[0] })

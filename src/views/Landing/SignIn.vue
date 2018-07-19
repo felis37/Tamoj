@@ -52,7 +52,6 @@
 <script>
   import SignInGoogle from '@/components/SignInGoogle.vue'
   import SignInPhone from '@/components/SignInPhone.vue'
-  import { getIdentityData } from '@/modules/identity'
 
   export default {
     data() {
@@ -67,7 +66,7 @@
     },
     methods: {
       async onSignInSuccess() {
-        let identityData = await getIdentityData()
+        /*let identityData = await getIdentityData()
         console.log(identityData)
         this.$store.commit('SET_IDENTITY_DATA', identityData)
         
@@ -82,7 +81,7 @@
           this.$router.replace({ name: 'Details' })
         } else {
           throw new Error('No permissions!! TODO')
-        }
+        }*/
       }
     }
   }

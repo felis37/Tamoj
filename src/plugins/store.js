@@ -1,33 +1,38 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { firebaseMutations, firebaseAction } from 'vuexfire'
-import { resolve } from 'url';
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
 	state: {
-		identityProfiles: [],
-		identityProfilesLoaded: null,
-		identityLeaderMemberships: [],
-		identityLeaderMembershipsLoaded: null
+		login: {},
+		loginProfiles: [],
+		loginProfilesLoaded: 0,
+		currentLoginProfile: null,
+		currentLoginProfileLoaded: null
 	},
 	mutations: {
-		SET_IDENTITY_DATA: (state, data) => state.identityData = data,
-		...firebaseMutations,
-		setIdentityProfilesLoaded: (state, data) => state.identityProfilesLoaded = data,
-		setIdentityLeaderMembershipsLoaded: (state, data) => state.identityLeaderMembershipsLoaded = data
+		setLogin: (state, data) => state.login = data,
+		setLoginProfilesLoaded: (state, data) =>
+			data === 0
+				? (state.loginProfilesLoaded = data)
+				: (state.loginProfilesLoaded = state.loginProfilesLoaded + data),
+		setCurrentLoginProfileLoaded: (state, data) => state.currentLoginProfile = data,
+		...firebaseMutations
 	},
 	actions: {
-		setIdentityProfilesRef: firebaseAction(({ bindFirebaseRef, commit }, ref) => {
-			bindFirebaseRef('identityProfiles', ref).then(() => {
-				commit('setIdentityProfilesLoaded', true)
-			})
-		}),
-		setIdentityLeaderMembershipsRef: firebaseAction(({ bindFirebaseRef, commit }, ref) => {
-			bindFirebaseRef('identityLeaderMemberships', ref).then(() => {
-				commit('setIdentityLeaderMembershipsLoaded', true)
-			})
-		})
+		setLoginProfileRef: firebaseAction(
+			async ({ bindFirebaseRef, commit, state }, ref) => {
+				await bindFirebaseRef(`loginProfiles.${state.loginProfiles.length}`, ref)
+				commit('setLoginProfilesLoaded', 1)
+			}
+		),
+		setCurrentLoginProfileRef: firebaseAction(
+			async ({ bindFirebaseRef, commit }, ref) => {
+				await bindFirebaseRef('currentLoginProfile', ref)
+				commit('setCurrentLoginProfileLoaded', true)
+			}
+		)
 	}
 })

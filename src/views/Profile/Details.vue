@@ -1,26 +1,30 @@
 <template>
   <div class="details">
-    <h1>Välkommen</h1>
-    <p>Detta är huvudprofilsidan. Här ska en användare kunna hantera alla sina personuppgifter</p>
-    <button @click="getFunctionData">Klicka här för funktionsdata!</button>
+    <h1 v-if="currentLoginProfileLoaded">Välkommen! {{ currentLoginProfile }}</h1>
+    <button @click="addOneMoreProfile">Klicka här för mer profil!</button>
   </div>
 </template>
 
 <script>
-  import { functions } from '@/plugins/firebase'
-  import * as scoutnet from '@/plugins/scoutnet'
-  window.scoutnet = scoutnet;
-   
+  import { mapState } from 'vuex'
+  import { firestore, auth } from '@/plugins/firebase'
+
   export default {
-    methods: {
-      async getFunctionData() {
-        let helloWorld = functions.httpsCallable('helloWorld')
-        let result = await helloWorld()
-        console.log(result)
-      }
+    computed: mapState(['login', 'loginProfiles', 'loginProfilesLoaded', 'currentLoginProfile', 'currentLoginProfileLoaded']),
+    created() {
+      const primaryLoginProfileId = (this.login.is) ? this.login.is : Object.keys(this.login.profiles)[0]
+      const primaryLoginProfile = firestore.collection('profiles').doc(primaryLoginProfileId)
+
+      store.dispatch('setCurrentLoginProfileRef', primaryLoginProfile)
     },
-    mounted() {
-      console.log(this.$store.state.identityData)
+    destroyed() {
+      store.commit('setLoginProfilesLoaded', 0)
+    },
+    methods: {
+      addOneMoreProfile() {
+        const secLoginProfile = firestore.collection('profiles').doc(Object.keys(this.login.profiles)[0])
+        store.dispatch('setLoginProfileRef', secLoginProfile)
+      }
     }
   }
 </script>
