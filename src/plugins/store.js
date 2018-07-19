@@ -29,8 +29,8 @@ export default new Vuex.Store({
 				return true
 			})*/
 		}),
-		async test(context, data) {
-
+		test ({}, ref) {
+			
 		},
 		setIdentityLeaderMembershipsRef: firebaseAction(async ({ bindFirebaseRef }, ref) => {
 			bindFirebaseRef('identityLeaderMemberships', ref).then(() => {
