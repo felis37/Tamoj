@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import { auth } from '@/plugins/firebase'
+import store from '@/plugins/store'
 import login from '@/modules/login'
 
 //Head views
@@ -97,7 +97,7 @@ let router = new Router({
 
 router.beforeEach(async (to, from, next) => {
 	const viewPermission = to.meta.permission
-	const identityAuthenticated = auth.currentUser != null //Todo get from store instead
+	const identityAuthenticated = store.state.auth.uid
 
 	if (!identityAuthenticated) {
 		if (viewPermission) {
@@ -115,8 +115,9 @@ router.beforeEach(async (to, from, next) => {
 		) {
 			next()
 		} else {
-			const loginDoc = await login.getLogin()
-			const loginData = loginDoc.data()
+			console.log('haf')
+			
+			const loginData = await login.getLogin()
 			let permissions = []
 
 			if (Object.keys(loginData.groupLeader).length) {

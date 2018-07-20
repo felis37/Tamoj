@@ -1,30 +1,24 @@
 <template>
   <div class="details">
-    <h1 v-if="currentLoginProfileLoaded">Välkommen! {{ currentLoginProfile }}</h1>
-    <button @click="addOneMoreProfile">Klicka här för mer profil!</button>
+    <h1 v-if="primaryLoginProfileLoaded">Välkommen {{ primaryLoginProfile.details.general.givenName }}!</h1>
   </div>
 </template>
 
 <script>
   import { mapState } from 'vuex'
   import { firestore, auth } from '@/plugins/firebase'
+  import firestoreRefs from '@/modules/firestoreRefs'
 
   export default {
-    computed: mapState(['login', 'loginProfiles', 'loginProfilesLoaded', 'currentLoginProfile', 'currentLoginProfileLoaded']),
+    computed: mapState(['auth', 'login', 'loginProfiles', 'loginProfilesLoaded', 'currentLoginProfileOfLoginProfiles', 'primaryLoginProfile', 'primaryLoginProfileLoaded']),
     created() {
-      const primaryLoginProfileId = (this.login.is) ? this.login.is : Object.keys(this.login.profiles)[0]
-      const primaryLoginProfile = firestore.collection('profiles').doc(primaryLoginProfileId)
-
-      store.dispatch('setCurrentLoginProfileRef', primaryLoginProfile)
+      store.dispatch('setPrimaryLoginProfileRef', firestoreRefs.getRef('primaryLoginProfile'))
+      //store.dispatch('setLoginProfilesRefs', firestoreRefs.getRef('loginProfiles')) //Todo when sevprofload
     },
     destroyed() {
-      store.commit('setLoginProfilesLoaded', 0)
+      store.commit('setPrimaryLoginProfileLoaded', false)
     },
     methods: {
-      addOneMoreProfile() {
-        const secLoginProfile = firestore.collection('profiles').doc(Object.keys(this.login.profiles)[0])
-        store.dispatch('setLoginProfileRef', secLoginProfile)
-      }
     }
   }
 </script>

@@ -12,6 +12,9 @@ Vue.config.productionTip = false
 let app
 
 auth.onAuthStateChanged(user => {
+	if (user) {
+		store.commit('setAuth', user)
+	}
 	if (!app) {
 		app = new Vue({
 			router,
