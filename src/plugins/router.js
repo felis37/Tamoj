@@ -115,8 +115,6 @@ router.beforeEach(async (to, from, next) => {
 		) {
 			next()
 		} else {
-			console.log('haf')
-			
 			const loginData = await login.getLogin()
 			let permissions = []
 

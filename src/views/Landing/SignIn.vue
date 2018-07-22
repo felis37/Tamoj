@@ -66,6 +66,8 @@
     },
     methods: {
       async onSignInSuccess() {
+        //TODO update with new login
+        
         /*let identityData = await getIdentityData()
         console.log(identityData)
         this.$store.commit('SET_IDENTITY_DATA', identityData)

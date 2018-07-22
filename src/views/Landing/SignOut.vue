@@ -4,7 +4,6 @@
 import { auth } from '@/plugins/firebase'
 
 export default {
-    name: 'signOut',
     methods: {
         async signOut() {
             try {
